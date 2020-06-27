@@ -28,7 +28,6 @@ require_once('../Modelo/usuario.php');
 		// Read
 		public function mostrar(){
 			$db=Db::conectar();
-			$listaMaterias=[];
 			$select=$db->query('SELECT * FROM usuarios');
 			foreach($select->fetchAll() as $usuario){
 				$usuarios = new usuario();
