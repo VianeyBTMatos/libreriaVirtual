@@ -6,9 +6,7 @@ class usuario{
 		private $ApellidoM;
 		private $Telefono;
 		private $Direccion;
-		
-		function __construct(){}
-
+	
 		public function getDni(){
 		return $this->Dni;
 		}
@@ -17,14 +15,14 @@ class usuario{
 			$this->Dni = $Dni;
 		}
 
-		public function geNombre(){
+		public function getNombre(){
 			return $this->Nombre;
 		}
 
 		public function setNombre($Nombre){
 			$this->Nombre= $Nombre;
 		}
-		public function getApellidoPo(){
+		public function getApellidoP(){
 			return $this->ApellidoP;
 		}
 
@@ -47,7 +45,7 @@ class usuario{
 		}
 
 		public function getDireccion(){
-			return $this->direccion;
+			return $this->Direccion;
 		}
 
 		public function setDireccion($Direccion){
