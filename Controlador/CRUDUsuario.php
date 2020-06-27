@@ -1,7 +1,7 @@
 <?php
 // incluye la clase Db
 require_once('conexion.php');
-require_once('../Modelos/usuario.php');
+require_once('../Modelo/usuario.php');
 
 	class CRUDUsuario{
 		// Crear

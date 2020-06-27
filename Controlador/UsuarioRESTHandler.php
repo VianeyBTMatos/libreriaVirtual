@@ -1,6 +1,6 @@
-<?php
+﻿<?php
 require_once('CRUDUsuario.php');
-require_once('../modelos/usuario.php');
+require_once('../Modelo/usuario.php');
 	
 class UsuarioRESTHandler {
 
@@ -282,9 +282,7 @@ class UsuarioRESTHandler {
 	   $usuario->setDni($Dni);
 	   //contiene la funcion insertar que referencia de CRUD y le envia lo que resive de la url
 	   $result = $crud->eliminar($usuario);
-	   print_r($result);
 	   echo "Operación realizada!!";
-	   var_dump($result);
 	}
 
 	function deleteJSON(){
