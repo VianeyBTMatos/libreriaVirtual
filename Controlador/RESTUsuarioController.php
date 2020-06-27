@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 require_once("UsuarioRestHandler.php");
 
 //petición que llega
@@ -15,7 +15,7 @@ switch($metodo) {
 	  //el valor que la url trae despues de referenciar a RESTUsuarioController.php? en este caso es search
 	  //http://localhost:8080/libreriaVirtual/Controlador/RESTUsuarioController.php?
 	   if(isset($_GET["search"]))
-		//en view se enviara un valor que se obtendrá con el get
+		//en search se enviara un valor que se obtendrá con el get
 		//http://localhost:8080/alumnos/Controladores/RESTUsuarioController.php?search=all
 	      $search = $_GET["search"];
 		//dependiendo que valor tenda search se enviara la respuesta que se esta pidiendo desde la url
@@ -29,9 +29,9 @@ switch($metodo) {
 				break;
 		//si en este caso es uno este hara los iguiente
 			case "specific":
-				//referencia a la clase MateriaRestHandler
+				//referencia a la clase UsuarioRESTHandler
 				$UsuarioRESTHandler = new UsuarioRESTHandler();
-				//accede a la funcion de de la clase MateriaRestHandler llamada geUsuario()
+				//accede a la funcion de de la clase UsuarioRESTHandler llamada getUsuario()
 				//este debe de recibir desde la url un valor con el nombre de Dni
 				//http://localhost:8080/libreriaVirtual/Controlador/RESTUsuarioController.php?search=specific&Dni=Valor
 				$UsuarioRESTHandler->getUsuario($_GET["Dni"]);
@@ -96,13 +96,13 @@ switch($metodo) {
 
 			switch($option){
 			 case'delete':
-				//hace referencia a la clase CURDRestHandler
+				//hace referencia a la clase UsuarioRESTHandler
 				$UsuarioRESTHandler = new UsuarioRESTHandler();
 				//le envia a la funcion insertUsuario los valores recividos desde la url
 				$UsuarioRESTHandler->deleteUsuario($_GET["DNI"] );
 			 break;
 			 case'deleteJSON':
-				//hace referencia a la clase CURDRestHandler
+				//hace referencia a la clase UsuarioRESTHandler
 				$UsuarioRESTHandler = new UsuarioRESTHandler();
 				//le envia a la funcion insertUsuario los valores recividos desde la url
 				$UsuarioRESTHandler->deleteJSON();

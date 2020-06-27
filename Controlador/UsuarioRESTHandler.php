@@ -54,7 +54,7 @@ class UsuarioRESTHandler {
   }
   	//si la solicitud esta vacia 
 	if ( $requestContentType == ''){
-		//ingresa al a funcion mostrat(), que es el que muestra todos las materias
+		//ingresa al a funcion mostrat(), que es el que muestra todos los usuarios
 		$listaUsuarios = $crud->mostrar();
 		   //el valor que resiva $listaUsuarios dara un resultado es falso entrara al if de lo contrario al else que es ok
 		if(empty($listaUsuarios)) {
@@ -324,7 +324,7 @@ function XMLParse($listaUsuariosXML)
 			$xml->startElement('Usuarios');
 			//recorre lo que tenga $listaUsuariosXML que fue pasado desde la funcion getAllUsuarios() y lo almacena en usuario
             foreach ($listaUsuariosXML as $usuario)
-			{	//Crea la etiqueta del elemento inicial de materia
+			{	//Crea la etiqueta del elemento inicial de Usuarios
 				$xml->startElement('Usuarios');
 				//Crea la etiqueta del elemento Dni			
 				$xml->startElement("Dni");
