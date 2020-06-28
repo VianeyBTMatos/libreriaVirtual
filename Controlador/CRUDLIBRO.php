@@ -1,6 +1,6 @@
 <?php
 require_once('conexion.php');
-require_once('../Modelos/libros.php');
+require_once('../Modelo/libros.php');
 
 	class CrudLibros{
 		// constructor de la clase
@@ -8,8 +8,8 @@ require_once('../Modelos/libros.php');
 
 		// Crear
 		public function insertar($Libro){
-			require('db_con.php');
-			$insert=$dbh->prepare('INSERT INTO libros values(:id, :nombre, :autor, :editorial, :categoria, :descripcion, :imagen)');
+			$db=Db::conectar();
+			$insert=$db->prepare('INSERT INTO libros values(:id, :nombre, :autor, :editorial, :categoria, :descripcion, :imagen)');
 			$insert->bindValue('id',$Libro->getId());
 			$insert->bindValue('nombre',$Libro->getNombre());
 			$insert->bindValue('autor',$Libro->getAutor());
@@ -22,26 +22,26 @@ require_once('../Modelos/libros.php');
 
 		// Delate
 		public function eliminar($Libro){
-			require('db_con.php');
-			$eliminar=$dbh->prepare('DELETE FROM libros WHERE id =:id');
+			$db=Db::conectar();
+			$eliminar=$db->prepare('DELETE FROM libros WHERE id =:id');
 			$eliminar->bindValue('id',$Libro->getId());
 			$eliminar->execute();
 		}
 
 		// Read
 		public function mostrar(){
-			require('db_con.php');
+			$db=Db::conectar();
 			$listaLibros=[];
-			$select=$dbh->query('SELECT * FROM libros');
+			$select=$db->query('SELECT * FROM libros');
 			foreach($select->fetchAll() as $Libro){
 				$libros= new Libro();
-				$libros->setId($Libros['id']);
+				$libros->setId($Libro['id']);
 				$libros->setNombre($Libro['nombre']);
 				$libros->setAutor($Libro['autor']);
-				$libro->setEditorial($Libro['editorial']);
-				$libro->setCategoria($Libro['categoria']);
-				$libro->setDescripcion($Libro['descripcion']);
-				$libro->setImagen($Libro['imagen']);
+				$libros->setEditorial($Libro['editorial']);
+				$libros->setCategoria($Libro['categoria']);
+				$libros->setDescripcion($Libro['descripcion']);
+				$libros->setImagen($Libro['imagen']);
 				$listaLibros[]=$libros;
 			}
 			return $listaLibros;
@@ -50,8 +50,8 @@ require_once('../Modelos/libros.php');
 		
 		// Updateg
 		public function actualizar($libro){
-			require('db_con.php');
-			$actualizar=$dbh->prepare('UPDATE libros SET id=:id, nombre=:nombre, autor=:autor, editorial=:editorial, categoria=:categoria, descripcion=:descripcion, imagen=:imagen WHERE nombre=:nombre');
+			$db=Db::conectar();
+			$actualizar=$db->prepare('UPDATE libros SET id=:id, nombre=:nombre, autor=:autor, editorial=:editorial, categoria=:categoria, descripcion=:descripcion, imagen=:imagen WHERE nombre=:nombre');
 			$actualizar->bindValue('id',$libro->getId());
 			$actualizar->bindValue('nombre',$libro->getNombre());
 			$actualizar->bindValue('autor',$libro->getAutor());
@@ -62,11 +62,11 @@ require_once('../Modelos/libros.php');
 			$actualizar->execute();
 		}
 		// Search
-		public function obtenerLibro($nombre){
-			require('db_con.php');
+		public function obtenerLibro($id){
+			$db=Db::conectar();
 			// $listaMaterias=[];
-			$select=$dbh->prepare('SELECT * FROM libros WHERE nombre=:nombre');
-			$select->bindValue('nombre',$nombre);
+			$select=$db->prepare('SELECT * FROM libros WHERE id=:id');
+			$select->bindValue('id',$id);
 			$select->execute();
 			$libro=$select->fetch();
 			$libros= new Libro();
@@ -81,22 +81,29 @@ require_once('../Modelos/libros.php');
 		}
 
 		public function mostrarJSON(){
-			require('db_con.php');
+			$db=Db::conectar();
 			//$listaArticulos=[];
-			$select = $dbh->prepare('SELECT * FROM  libros');
+			$select = $db->prepare('SELECT * FROM  libros');
 			$select->execute();
 			$result = $select->fetchAll(PDO::FETCH_ASSOC);
-            $listaLibros= json_encode($result);
-			
-			return $listaLibros;
+            //$listaLibros= json_encode($result, JSON_UNESCAPED_UNICODE);
+			$resp = $this->converter($result);
+			return $resp;
 		}
+
+		public function converter($array){
+			array_walk_recursive($array, function(&$item){
+				$item = utf8_encode( $item ); 
+			});
+			return json_encode( $array );
+	  }
 		
 		
 
 		public function obtenerLibroJSON($id){
-			require('db_con.php');
+			$db=Db::conectar();
 			$libros=[];
-			$select=$dbh->prepare('SELECT * FROM libros WHERE id=:id');
+			$select=$db->prepare('SELECT * FROM libros WHERE id=:id');
 			$select->bindValue('id',$id);
 			$select->execute();
 			$result = $select->fetchAll(PDO::FETCH_ASSOC);

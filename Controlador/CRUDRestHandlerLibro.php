@@ -1,6 +1,6 @@
-<?php
+﻿<?php
 require_once('CRUDLIBRO.php');
-require_once('../modelos/libros.php');
+require_once('../modelo/libros.php');
 	
 class CRUDRestHandlerLibro  {
 

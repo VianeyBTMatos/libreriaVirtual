@@ -49,7 +49,7 @@ switch($metodo) {
 			switch($option){
 				case'insert':
 					//si lo que resive el post en las variables no son vacias en tran al if
-				if  ((empty($_POST["id"]) != true) and (empty($_POST["nombre"]) != true) and
+				if  ((empty($_POST["id"]) != true) and (empty($_POST["Nombre"]) != true) and
 				(empty($_POST["autor"]) != true) and (empty($_POST["editorial"]) != true) and
 				(empty($_POST["categoria"]) != true) and (empty($_POST["descripcion"]) != true) and
 				(empty($_POST["imagen"]) != true)){
