@@ -1,4 +1,5 @@
 <?php
+require_once('conexion.php');
 require_once('../Modelos/libros.php');
 
 	class CrudLibros{
