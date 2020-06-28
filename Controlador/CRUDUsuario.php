@@ -80,9 +80,16 @@ require_once('../Modelo/usuario.php');
 			$select = $db->prepare('SELECT * FROM usuarios');
 			$select->execute();
 			$result = $select->fetchAll(PDO::FETCH_ASSOC);
-			$listaUsuarios = json_encode($result);
-			return ($listaUsuarios);
+			$resp = $this->utf8_converter($result);
+			return $resp;
 		}
+
+		public function utf8_converter($array){
+			array_walk_recursive($array, function(&$item){
+				$item = utf8_encode( $item ); 
+			});
+			return json_encode( $array );
+	  	}
 		
 		
 
