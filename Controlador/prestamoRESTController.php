@@ -3,7 +3,6 @@ require_once("prestamoRESTHandler.php");
 
 //petición que llega
 $metodo =  $_SERVER['REQUEST_METHOD']; 
-echo ("Hola Mundo ");
 //verifica que tipo de petición es
 switch($metodo) 
 {
@@ -35,7 +34,7 @@ switch($metodo)
 			$option = $_GET["option"];
 			switch($option){
 				case 'insert':
-					echo("Estoy en el switch INSERT");
+					echo("Estoy en el switch INSERT -> ");
 					//si lo que resive el post no son vacias entran al if
 					if ((empty($_POST["Id_prestamo"]) != true) and 
 						(empty($_POST["Domicilio"]) != true) and 
@@ -45,7 +44,7 @@ switch($metodo)
 						(empty($_POST["Id_libro"]) != true) and 
 						(empty($_POST["Dni_user"]) != true) ) 
 					{
-						echo("Estoy en el IF INSERT");
+						echo(" Estoy en el IF INSERT -> ");
 						$CURDRestHandler = new CURDRestHandler(); //hace referencia a la clase CURDRestHandler
 						$CURDRestHandler->InsertPrestamos($_POST["Id_prestamo"],$_POST["Domicilio"],$_POST["Telefono"],
 						$_POST["Fecha_salida"],$_POST["Fecha_entrega"],$_POST["Id_libro"],$_POST["Dni_user"]); //le envia a la funcion insertUsuario los valores recividos desde la url
@@ -55,19 +54,19 @@ switch($metodo)
 					}
 					break;
 				case'insertJSON';
-					echo ("Estoy en el insert JSON");
+					echo ("Estoy en el insert JSON -> ");
 					$CURDRestHandler = new CURDRestHandler(); //hace referencia a la clas RESTHandler
 					$CURDRestHandler->InsertPrestamosJSON(); //se dirige a la funcion 
 					break;
 				case 'update':
-					echo("Estoy en el case UPDATE");
+					echo("Estoy en el case UPDATE ->");
 					//hace referencia a la clase CURDRestHandler
 					$CURDRestHandler = new CURDRestHandler();
 					$CURDRestHandler->actualizarPrestamos($_POST["Id_prestamo"],$_POST["Domicilio"],$_POST["Telefono"], //se dirige a la funcion 
 					$_POST["Fecha_salida"],$_POST["Fecha_entrega"],$_POST["Id_libro"],$_POST["Dni_user"]);
 					break;
 				case'updateJSON';
-					echo ("Estoy en el insert updateJSON");
+					echo ("Estoy en el insert updateJSON -> ");
 					$CURDRestHandler = new CURDRestHandler();
 					$CURDRestHandler->actualizarPrestamosJSON();
 					break;
@@ -95,7 +94,7 @@ switch($metodo)
 					break;
 
 				case'deleteJSON':
-					echo (" Estas en el case delete JSON");
+					echo ("Estas en el case delete JSON -> ");
 					
 					$PrestamoRESTHandler = new CURDRestHandler(); //hace referencia a la clase CURDRestHandler
 					$PrestamoRESTHandler->eliminarPrestamoJSON(); //le envia a la funcion insertUsuario los valores recividos desde la url
@@ -103,7 +102,7 @@ switch($metodo)
 
 			default:
 				header("HTTP/1.1 405  Method Not Allowed");
-				echo"opcion no Encontrada";
+				echo"Opcion no Encontrada";
 				break;
 			}
 		}else{
