@@ -186,6 +186,7 @@ class CURDRestHandler  {
 		
 		$content = trim(file_get_contents("php://input")); //Elimina espacio en blanco (u otro tipo de caracteres) del inicio y el final de la cadena. Transmite un fichero completo a una cadena
 		$decoded = json_decode($content, true); //Decodifica un string de JSON
+		// $data = file_get_contents($decoded);
 		$data = array();
 
 		if	(isset($decoded{'Prestamo'}['Id_prestamo']) and isset($decoded{'Prestamo'}['Domicilio']) and isset($decoded{'Prestamo'}['Telefono']) and 
@@ -197,7 +198,7 @@ class CURDRestHandler  {
 			$decoded{'Prestamo'}['Fecha_entrega'],$decoded{'Prestamo'}['Id_libro'],$decoded{'Prestamo'}['Dni_user']);
 
 		} else{
-			
+
 			header("HTTP/1.1 404 Error al intentar insertar");
 			header("Content-Type: application/json");
 			echo "Error en variables o nulos (solo telefono puede estar nulo)";
@@ -234,8 +235,8 @@ class CURDRestHandler  {
 		$decoded = json_decode($content, true); //Decodifica un string de JSON
 		$data = array();
 		header("HTTP/1.1 200 OK");
-		$this->actualizarPrestamos($decoded{'prestamos'}['Id_prestamo'],$decoded{'prestamos'}['Domicilio'], $decoded{'prestamos'}['Telefono'],$decoded{'prestamos'}['Fecha_salida'],
-		$decoded{'prestamos'}['Fecha_entrega'],$decoded{'prestamos'}['Id_libro'],$decoded{'prestamos'}['Dni_user']);
+		$this->actualizarPrestamos($decoded{'prestamo'}['Id_prestamo'],$decoded{'prestamo'}['Domicilio'], $decoded{'prestamo'}['Telefono'],$decoded{'prestamo'}['Fecha_salida'],
+		$decoded{'prestamo'}['Fecha_entrega'],$decoded{'prestamo'}['Id_libro'],$decoded{'prestamo'}['Dni_user']);
 	}
 
 
