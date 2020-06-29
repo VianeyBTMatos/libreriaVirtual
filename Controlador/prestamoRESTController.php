@@ -66,7 +66,7 @@ switch($metodo)
 					$_POST["Fecha_salida"],$_POST["Fecha_entrega"],$_POST["Id_libro"],$_POST["Dni_user"]);
 					break;
 				case'updateJSON';
-					echo ("Estoy en el insert updateJSON -> ");
+					echo ("Estoy en el insert update JSON -> ");
 					$CURDRestHandler = new CURDRestHandler();
 					$CURDRestHandler->actualizarPrestamosJSON();
 					break;
