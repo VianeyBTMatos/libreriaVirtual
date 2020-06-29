@@ -166,33 +166,73 @@ class CRHLibro  {
 	   }
     }
     function LibInsertJson(){
-        if (isset($_SERVER['CONTENT_TYPE'])){
-            $requestContentType = $_SERVER['CONTENT_TYPE'];
-        } 
-        if (strpos($requestContentType,'application/json') != false){
-            header("HTTP/1.1 404 Error");
-            header("Content-Type: application/json");
-            exit();				 
-                        }	
-        $content = trim(file_get_contents("php://input"));
+        // if (isset($_SERVER['CONTENT_TYPE'])){
+        //     $requestContentType = $_SERVER['CONTENT_TYPE'];
+        // } 
+        // if (strpos($requestContentType,'application/json') != false){
+        //     header("HTTP/1.1 404 Error");
+        //     header("Content-Type: application/json");
+        //     exit();				 
+        //                 }	
+        // $content = trim(file_get_contents("php://input"));
  
-        $decoded = json_decode($content, true);
-        $data = array();
+        // $decoded = json_decode($content, true);
+        // $data = array();
 
-        if(isset($decoded{'libro'}['id']) and isset($decoded{'libro'}['Nombre']) and
-        isset($decoded{'libro'}['autor']) and isset($decoded{'libro'}['editorial']) and 
-        isset($decoded{'libro'}['categoria']) and isset($decoded{'libro'}['descripcion']) and 
-        isset($decoded{'libro'}['imagen'])
-        ){
-            header("HTTP/1.1 200 OK");
-            $this->LibInsertJson($decoded{'libro'}['id'],$decoded{'libro'}['Nombre'],
-            $decoded{'libro'}['autor'],$decoded{'libro'}['editorial'],
-            $decoded{'libro'}['categoria'],$decoded{'libro'}['descripcion'],$decoded{'libro'}['imagen']);
-        } else{
-            header("HTTP/1.1 404 Error al intentar insertar");
-            header("Content-Type: application/json");
-            echo "Error en variables o nulos ";
-        }		
+        // if(isset($decoded{'libro'}['id']) and isset($decoded{'libro'}['Nombre']) and
+        // isset($decoded{'libro'}['autor']) and isset($decoded{'libro'}['editorial']) and 
+        // isset($decoded{'libro'}['categoria']) and isset($decoded{'libro'}['descripcion']) and 
+        // isset($decoded{'libro'}['imagen'])
+        // ){
+        //     header("HTTP/1.1 200 OK");
+        //     $this->LibInsertJson($decoded{'libro'}['id'],$decoded{'libro'}['Nombre'],
+        //     $decoded{'libro'}['autor'],$decoded{'libro'}['editorial'],
+        //     $decoded{'libro'}['categoria'],$decoded{'libro'}['descripcion'],$decoded{'libro'}['imagen']);
+        // } else{
+        //     header("HTTP/1.1 404 Error al intentar insertar");
+        //     header("Content-Type: application/json");
+        //     echo "Error en variables o nulos ";
+		// }
+		if (isset($_SERVER['CONTENT_TYPE'])){
+			$requestContentType = $_SERVER['CONTENT_TYPE'];
+		} 
+		//devuelve la posicion de la primera coincidencia de la palabra o caracter buscado en una cadena de texto
+		if (strpos($requestContentType,'application/json') != false){
+			header("HTTP/1.1 404 Error");
+			header("Content-Type: application/json");
+			exit();				 
+						}	
+		//Elimina espacio en blanco (u otro tipo de caracteres) del inicio y el final de la cadena
+		// Transmite un fichero completo a una cadena
+		$content = trim(file_get_contents("php://input"));
+		//Decodifica un string de JSON
+		$decoded = json_decode($content, true);
+		$data = array();
+
+		if(
+			isset($decoded{'libro'}['id']) and 
+			isset($decoded{'libro'}['nombre']) and
+			isset($decoded{'libro'}['autor']) and 
+			isset($decoded{'libro'}['editorial']) and
+			isset($decoded{'libro'}['categoria']) and
+			isset($decoded{'libro'}['descripcion']) and
+			$decoded{'libro'}['imagen'])
+		{
+			header("HTTP/1.1 200 OK");
+			//header("Content-Type: application/json");
+			$this->InsertLib($decoded{'libro'}['id'],
+							$decoded{'libro'}['nombre'],
+							$decoded{'libro'}['autor'],
+							$decoded{'libro'}['editorial'],
+							$decoded{'libro'}['categoria'],
+							$decoded{'libro'}['descripcion'],
+							$decoded{'libro'}['imagen']);
+		} else{
+			header("HTTP/1.1 404 Error al intentar insertar");
+			header("Content-Type: application/json");
+			echo "Error en variables o nulos (solo telefono puede estar nulo)";
+		}
+				
 }
 
 	function actLibro($id, $nombre, $autor, $editorial, $categoria, $descripcion, $imagen){
@@ -205,7 +245,7 @@ class CRHLibro  {
 			$libro->setCategoria($categoria);
 			$libro->setDescripcion($descripcion);
 			$libro->setImagen($imagen);
-			 $crud->ActLib($libro);
+			$crud->ActLib($libro);
           
     }
     function ActJSON(){
