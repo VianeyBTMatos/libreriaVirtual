@@ -173,36 +173,48 @@ class CURDRestHandler  {
 	   }
 	}
 
-	function InsertPrestamosJSON(){
-		if (isset($_SERVER['CONTENT_TYPE'])){
+	function InsertPrestamosJSON(){ 
+		if (isset($_SERVER['CONTENT_TYPE']))
+		{
 			$requestContentType = $_SERVER['CONTENT_TYPE'];
 		} 
-		
-		if (strpos($requestContentType,'application/json') != false){ //devuelve la posicion de la primera coincidencia de la palabra o caracter buscado en una cadena de texto
+		//devuelve la posicion de la primera coincidencia de la palabra o caracter buscado en una cadena de texto
+		if (strpos($requestContentType,'application/json') != false)
+		{
 			header("HTTP/1.1 404 Error");
 			header("Content-Type: application/json");
-			exit();				 
+			exit();
 		}	
-		
-		$content = trim(file_get_contents("php://input")); //Elimina espacio en blanco (u otro tipo de caracteres) del inicio y el final de la cadena. Transmite un fichero completo a una cadena
+		//Elimina espacio en blanco (u otro tipo de caracteres) del inicio y el final de la cadena
+		// Transmite un fichero completo a una cadena
+		$content = trim(file_get_contents("php://input"));
 		$decoded = json_decode($content, true); //Decodifica un string de JSON
-		// $data = file_get_contents($decoded);
 		$data = array();
 
-		if	(isset($decoded{'Prestamo'}['Id_prestamo']) and isset($decoded{'Prestamo'}['Domicilio']) and isset($decoded{'Prestamo'}['Telefono']) and 
-			isset($decoded{'Prestamo'}['Fecha_salida']) and isset($decoded{'Prestamo'}['Fecha_entrega']) and isset($decoded{'Prestamo'}['Id_libro']) and 
-			$decoded{'Prestamo'}['Dni_user'])
-		{
+		if(
+		isset($decoded{'prestamo'}['Id_prestamo']) and 
+		isset($decoded{'prestamo'}['Domicilio']) and
+		isset($decoded{'prestamo'}['Telefono']) and 
+		isset($decoded{'prestamo'}['Fecha_salida']) and
+		isset($decoded{'prestamo'}['Fecha_entrega']) and
+		isset($decoded{'prestamo'}['Id_libro']) and
+		$decoded{'prestamo'}['Dni_user']
+		){
 			header("HTTP/1.1 200 OK");
-			$this->InsertPrestamos($decoded{'Prestamo'}['Id_prestamo'],$decoded{'Prestamo'}['Domicilio'], $decoded{'Prestamo'}['Telefono'],$decoded{'Prestamo'}['Fecha_salida'],
-			$decoded{'Prestamo'}['Fecha_entrega'],$decoded{'Prestamo'}['Id_libro'],$decoded{'Prestamo'}['Dni_user']);
-
+			//header("Content-Type: application/json");
+			$this->InsertPrestamos(
+				$decoded{'prestamo'}['Id_prestamo'],
+				$decoded{'prestamo'}['Domicilio'],
+				$decoded{'prestamo'}['Telefono'],
+				$decoded{'prestamo'}['Fecha_salida'],
+				$decoded{'prestamo'}['Fecha_entrega'],
+				$decoded{'prestamo'}['Id_libro'],
+				$decoded{'prestamo'}['Dni_user']);
 		} else{
-
 			header("HTTP/1.1 404 Error al intentar insertar");
 			header("Content-Type: application/json");
 			echo "Error en variables o nulos (solo telefono puede estar nulo)";
-		}		
+		}	
 	}
 
 	function actualizarPrestamos($Id_prestamo, $Domicilio, $Telefono, $Fecha_salida, $Fecha_entrega, $Id_libro, $Dni_user){
@@ -223,20 +235,26 @@ class CURDRestHandler  {
 			$requestContentType = $_SERVER['CONTENT_TYPE'];
 		} 
 		
-		if (strpos($requestContentType,'application/json') != false) //devuelve la posicion de la primera coincidencia de la palabra o caracter buscado en una cadena de texto
+		if (strpos($requestContentType,'application/json') != false)
 		{
 			header("HTTP/1.1 404 Error");
 			header("Content-Type: application/json");
 			exit();				 
 		}	
-		//Elimina espacio en blanco (u otro tipo de caracteres) del inicio y el final de la cadena
-		// Transmite un fichero completo a una cadena
+
 		$content = trim(file_get_contents("php://input"));
-		$decoded = json_decode($content, true); //Decodifica un string de JSON
+		$decoded = json_decode($content, true);
 		$data = array();
+
 		header("HTTP/1.1 200 OK");
-		$this->actualizarPrestamos($decoded{'prestamo'}['Id_prestamo'],$decoded{'prestamo'}['Domicilio'], $decoded{'prestamo'}['Telefono'],$decoded{'prestamo'}['Fecha_salida'],
-		$decoded{'prestamo'}['Fecha_entrega'],$decoded{'prestamo'}['Id_libro'],$decoded{'prestamo'}['Dni_user']);
+		$this->actualizarPrestamos($decoded{'prestamo'}['Id_prestamo'],
+		$decoded{'prestamo'}['Domicilio'],
+		$decoded{'prestamo'}['Telefono'],
+		$decoded{'prestamo'}['Fecha_salida'],
+		$decoded{'prestamo'}['Fecha_entrega'],
+		$decoded{'prestamo'}['Id_libro'],
+		$decoded{'prestamo'}['Dni_user']);
+	
 	}
 
 
@@ -248,25 +266,21 @@ class CURDRestHandler  {
 	}
 
 	function eliminarPrestamoJSON(){
-		if (isset($_SERVER['CONTENT_TYPE']))
-		{
+		if (isset($_SERVER['CONTENT_TYPE'])){
 			$requestContentType = $_SERVER['CONTENT_TYPE'];
 		} 
 		
-		if (strpos($requestContentType,'application/json') != false) //devuelve la posicion de la primera coincidencia de la palabra o caracter buscado en una cadena de texto
+		if (strpos($requestContentType,'application/json') != false)
 		{
 			header("HTTP/1.1 404 Error");
 			header("Content-Type: application/json");
 			exit();	
-		}	
-		
-		$content = trim(file_get_contents("php://input")); //Elimina espacio en blanco (u otro tipo de caracteres) del inicio y el final de la cadena. Transmite un fichero completo a una cadena
-		$decoded = json_decode($content, true); //Decodifica un string de JSON
+		}
+		$content = trim(file_get_contents("php://input"));
+		$decoded = json_decode($content, true);
 		$data = array();
 		header("HTTP/1.1 200 OK");
 		$this->eliminarPrestamo($decoded{'prestamo'}['Id_prestamo']);
-
-		
 	}	
 }
 
