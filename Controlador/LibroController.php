@@ -37,14 +37,14 @@ switch($metodo) {
 			switch($option){
 				case'insert':
 					
-				if  ((empty($_POST["id"]) != true) and (empty($_POST["Nombre"]) != true) and
+				if  ((empty($_POST["id"]) != true) and (empty($_POST["nombre"]) != true) and
 				(empty($_POST["autor"]) != true) and (empty($_POST["editorial"]) != true) and
 				(empty($_POST["categoria"]) != true) and (empty($_POST["descripcion"]) != true) and
 				(empty($_POST["imagen"]) != true)){
 				
 					$CRUDRestHandlerLibro = new CRHLibro();
 					
-					$CRUDRestHandlerLibro->InsertLib($_POST["id"],$_POST["Nombre"],
+					$CRUDRestHandlerLibro->InsertLib($_POST["id"],$_POST["nombre"],
 					$_POST["autor"],$_POST["editorial"],$_POST["categoria"],$_POST["descripcion"],$_POST["imagen"]);
 				}else {
 						header("HTTP/1.1 400  error en variables");
