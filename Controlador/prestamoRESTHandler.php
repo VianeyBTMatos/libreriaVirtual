@@ -188,15 +188,16 @@ class CURDRestHandler  {
 		$decoded = json_decode($content, true); //Decodifica un string de JSON
 		$data = array();
 
-		if	(isset($decoded{'prestamos'}['Id_prestamo']) and isset($decoded{'prestamos'}['Domicilio']) and isset($decoded{'prestamos'}['Telefono']) and 
-			isset($decoded{'prestamos'}['Fecha_salida']) and isset($decoded{'prestamos'}['Fecha_entrega']) and isset($decoded{'prestamos'}['Id_libro']) and 
-			$decoded{'prestamos'}['Dni_user']){
-			
+		if	(isset($decoded{'Prestamo'}['Id_prestamo']) and isset($decoded{'Prestamo'}['Domicilio']) and isset($decoded{'Prestamo'}['Telefono']) and 
+			isset($decoded{'Prestamo'}['Fecha_salida']) and isset($decoded{'Prestamo'}['Fecha_entrega']) and isset($decoded{'Prestamo'}['Id_libro']) and 
+			$decoded{'Prestamo'}['Dni_user'])
+		{
 			header("HTTP/1.1 200 OK");
-			
-			$this->InsertPrestamos($decoded{'prestamos'}['Id_prestamo'],$decoded{'prestamos'}['Domicilio'], $decoded{'prestamos'}['Telefono'],$decoded{'prestamos'}['Fecha_salida'],
-			$decoded{'prestamos'}['Fecha_entrega'],$decoded{'prestamos'}['Id_libro'],$decoded{'prestamos'}['Dni_user']);
+			$this->InsertPrestamos($decoded{'Prestamo'}['Id_prestamo'],$decoded{'Prestamo'}['Domicilio'], $decoded{'Prestamo'}['Telefono'],$decoded{'Prestamo'}['Fecha_salida'],
+			$decoded{'Prestamo'}['Fecha_entrega'],$decoded{'Prestamo'}['Id_libro'],$decoded{'Prestamo'}['Dni_user']);
+
 		} else{
+			
 			header("HTTP/1.1 404 Error al intentar insertar");
 			header("Content-Type: application/json");
 			echo "Error en variables o nulos (solo telefono puede estar nulo)";
